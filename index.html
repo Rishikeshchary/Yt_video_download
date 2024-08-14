@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #007bff;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px ;
+        }
+
+        .navbar a {
+            color: #e8dfdf;
+            text-align: center;
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 26px;
+        }
+
+        .navbar a:hover {
+            background-color: #0056b3;
+        }
+
+        .navbar img {
+            height: 70px; /* Set image height */
+            width: 150px; /* Set image width */
+            object-fit: contain ; /* Ensure image fits properly */
+            align-items: center;
+            position: relative;
+            right: 10px;
+            border: 1px none #ece6e6;
+            
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 40px;
+            font-size: 50px;
+        }
+
+        form {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 35px;
+            width: 450px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #555;
+            
+        }
+
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Features</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+        <img src="C:\Users\Danam\Desktop\video\pictures\IMG-20230408-WA0011.jpg" alt="Logo"> 
+    </div>
+
+    <div class="container">
+        <form id="downloadForm">
+            <h1>Video Downloader</h1>
+            <label for="link">YouTube Link:</label>
+            <input type="text" id="link" name="link" placeholder="Enter YouTube link" required>
+            <button type="submit">Download</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('downloadForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/download', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json',
+                    }
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert(`Success: ${result.status}`);
+                } else {
+                    alert(`Error: ${result.detail}`);
+                }
+            } catch (error) {
+                alert(`Error: ${error.message}`);
+            }
+        });
+    </script>
+</body>
+</html>
